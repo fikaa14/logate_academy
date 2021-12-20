@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Logate Academy Demo Application
+  profiles:
+    active: dev
+
+db-url: test123
