@@ -1,7 +1,6 @@
 package com.academy.demo.controller;
 
 import com.academy.demo.dto.ProductDTO;
-import com.academy.demo.dto.ProductFakeDTO;
 import com.academy.demo.dto.ProductWithCategoriesDTO;
 import com.academy.demo.dto.ProductWithDataDTO;
 import com.academy.demo.search.ProductSearch;
@@ -189,12 +188,5 @@ public class ProductController {
         responseHeaders.set("Test-Header", "Test123");
 
         return new ResponseEntity<>(responseBody, responseHeaders, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "fake")
-    public ResponseEntity<List<ProductFakeDTO>> getAllFakeProducts()
-    {
-        List<ProductFakeDTO> products = productService.findAllFake();
-        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }
