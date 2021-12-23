@@ -1,0 +1,5 @@
+fake-store:
+  base-url:  https://fakestoreapi.com
+  product-part: /api/products
+  category-part: /api/categories
+  cart-part: /api/cart

@@ -3,8 +3,8 @@ spring:
     url: jdbc:mysql://192.168.27.217:3306/academy_2022?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=CET&allowPublicKeyRetrieval=true
     username: root # MySQL korisnicko ime
     password: root # MySQL lozinka
-    driver-class-name: com.mysql.jdbc.Driver # MySQL Driver -> MySQL 5.X.X
-    # driver-class-name: com.mysql.cj.jdbc.Driver # MySQL Driver -> MySQL 8.X.X
+    #driver-class-name: com.mysql.jdbc.Driver #MySQL Driver -> MySQL 5.X.X
+    driver-class-name: com.mysql.cj.jdbc.Driver # MySQL Driver -> MySQL 8.X.X
 
 server:
   port: 8443
