@@ -13,7 +13,6 @@ public class FakeApiConfiguration {
     private String categoryPart;
     private String cartPart;
 
-    @Bean
     public FakeApiConfiguration fakeApiConfiguration(){
         return new FakeApiConfiguration();
     }

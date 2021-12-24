@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,19 +31,14 @@ public class ProductFakerService {
     @Qualifier("secureRestTemplate")
     private RestTemplate secureRestTemplate;
 
-    /*public void config() {
-        String url = fakeApiConfiguration.getUrl();
-        String productPart = fakeApiConfiguration.getProductPart();
-        String categoryPart = fakeApiConfiguration.getCategoryPart();
-        String cartPart = fakeApiConfiguration.getCartPart();
-    }*/
 
     public ProductFakeDTO addNewProduct(ProductFakeDTO productFakeDTO) {
 
         String url = fakeApiConfiguration.getUrl() + fakeApiConfiguration.getProductPart();
 
         try {
-            ResponseEntity<ProductFakeDTO> responseEntity = secureRestTemplate.exchange(url, HttpMethod.POST, null, ProductFakeDTO.class);
+            HttpEntity<ProductFakeDTO> requestEntity = new HttpEntity<>(productFakeDTO);
+            ResponseEntity<ProductFakeDTO> responseEntity = secureRestTemplate.exchange(url, HttpMethod.POST, requestEntity, ProductFakeDTO.class);
             return responseEntity.getBody();
         }
 
