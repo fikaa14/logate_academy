@@ -28,4 +28,13 @@ public class Country {
     @OneToMany(mappedBy = "country")
     @JsonIgnore
     private List<City> cities = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", shortCode='" + shortCode + '\'' +
+                '}';
+    }
 }

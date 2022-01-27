@@ -5,6 +5,8 @@ spring:
     password: 1234 # MySQL lozinka
     #driver-class-name: com.mysql.jdbc.Driver # MySQL Driver -> MySQL 5.X.X
     driver-class-name: com.mysql.cj.jdbc.Driver # MySQL Driver -> MySQL 8.X.X
+  jpa:
+    show-sql: true
 
 
 server:

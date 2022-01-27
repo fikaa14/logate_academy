@@ -6,8 +6,9 @@ spring:
     # driver-class-name: com.mysql.jdbc.Driver # MySQL Driver -> MySQL 5.X.X
     driver-class-name: com.mysql.cj.jdbc.Driver # MySQL Driver -> MySQL 8.X.X
 
+
 server:
-  port: 8443
+  port: 8080
 
 # custom twitter configuration
 twitter-api:

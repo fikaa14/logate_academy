@@ -29,6 +29,7 @@ public class Customer {
     @Column
     private String phone;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="registred_at")
     private Date registredAt;
 
