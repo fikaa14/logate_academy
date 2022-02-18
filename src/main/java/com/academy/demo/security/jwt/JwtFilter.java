@@ -1,12 +1,15 @@
 package com.academy.demo.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.security.core.Authentication;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -28,14 +31,18 @@ public class JwtFilter extends OncePerRequestFilter {
         try
         {
             String jwt = resolveToken(request);
-            if(StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt))
+            if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt))
             {
                 Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication); // thread local!
             }
             filterChain.doFilter(request, response);
         }
-        catch (ExpiredJwtException e) {
+        catch (ExpiredJwtException | SignatureException
+                | MalformedJwtException | UnsupportedJwtException
+                | IllegalArgumentException e)
+        {
+            response.addHeader("Access-Control-Allow-Origin", "*");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }

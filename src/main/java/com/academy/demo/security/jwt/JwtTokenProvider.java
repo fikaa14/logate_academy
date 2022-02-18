@@ -30,49 +30,41 @@ public class JwtTokenProvider {
     public String createToken(Authentication authentication)
     {
         String authorities = authentication.getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(",")); // ROLE_DEVELOPER,ROLE_ADMIN,ROLE_MANAGER
 
         long now = new Date().getTime();
         Date validity = new Date(now + tokenValidityInMinutes * 60_000);
 
         return Jwts.builder()
-            .setSubject(authentication.getName())
-            .claim(AUTHORITIES_KEY, authorities)
-            .signWith(SignatureAlgorithm.ES512, secretKey)
-            .setExpiration(validity)
-            .compact();
-    }
-
-    public boolean validateToken(String authToken)
-    {
-        try
-        {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
-            return true;
-        }
-        catch (SignatureException e)
-        {
-            return false;
-        }
-
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setExpiration(validity)
+                .compact();
     }
 
     public Authentication getAuthentication(String token)
     {
         Claims claims = Jwts.parser()
-            .setSigningKey(secretKey)
-            .parseClaimsJws(token)
-            .getBody();
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
 
         String principal = claims.getSubject();
 
         Collection<? extends GrantedAuthority> authorities = Arrays
-            .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+                .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    }
+
+    public boolean validateToken(String authToken)
+    {
+        Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+        return true;
     }
 }
