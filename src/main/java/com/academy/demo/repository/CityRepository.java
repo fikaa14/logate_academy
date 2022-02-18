@@ -1,7 +1,9 @@
 package com.academy.demo.repository;
 
 import com.academy.demo.entity.City;
+import com.academy.demo.specs.CitySearchSpecification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CityRepository extends JpaRepository<City, Integer>
+public interface CityRepository extends JpaRepository<City, Integer>, JpaSpecificationExecutor<City>
 {
     // SELECT city.*
     // FROM city
@@ -41,4 +43,5 @@ public interface CityRepository extends JpaRepository<City, Integer>
     @Query(value = "select city from City city " +
             "join fetch city.country")
     List<City> findAllWithCountries();
+
 }

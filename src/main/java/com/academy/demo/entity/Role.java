@@ -1,7 +1,9 @@
 package com.academy.demo.entity;
 
+import com.academy.demo.dto.RoleDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,6 +15,7 @@ import java.util.Set;
 @Table(name="role")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -29,6 +32,13 @@ public class Role {
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+    public Role(RoleDTO roleDTO)
+    {
+        this.setId(roleDTO.getId());
+        this.setName(roleDTO.getName());
+        this.setDescription(roleDTO.getDescription());
+    }
 
     @Override
     public String toString() {

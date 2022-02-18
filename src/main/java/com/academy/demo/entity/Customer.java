@@ -3,6 +3,7 @@ package com.academy.demo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Table(name="customer")
 @Getter
 @Setter
+@ToString
 public class Customer {
 
     @Id
@@ -34,7 +36,6 @@ public class Customer {
     private Date registredAt;
 
     @ManyToMany(mappedBy = "customers")
-    @JsonIgnore
     private Set<Adress> adresses = new HashSet<>();
 
 }

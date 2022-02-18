@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @Table(name = "city")
 @Getter
 @Setter
-public class City {
+public class City implements Serializable {
 
     @Id
     @Column
@@ -23,21 +24,16 @@ public class City {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinColumn(name = "country_id")
     private Country country;
-
-    @OneToMany(mappedBy = "city")
-    @JsonIgnore
-    private Set<Adress> adresses = new HashSet<>();
 
     @Override
     public String toString() {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", country=" + country +
                 '}';
     }
 }

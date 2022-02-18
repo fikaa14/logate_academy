@@ -1,6 +1,8 @@
 package com.academy.demo.entity;
 
+import com.academy.demo.dto.UserDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.util.Set;
 @Table(name="user")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -26,7 +29,7 @@ public class User {
     private String lastName;
 
     @Column
-    private String username;
+    private String usename; //napravio sam gresku u bazi
 
     @Column
     private String password;
@@ -38,7 +41,7 @@ public class User {
     @Column(name="is_active")
     private Boolean isActive;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name= "user_role",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
@@ -46,8 +49,53 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     @PrimaryKeyJoinColumn
     private UserDetail userDetail;
 
+    public User(UserDTO userDTO)
+    {
+        this.setFirstName(userDTO.getFirstName());
+        this.setLastName(userDTO.getLastName());
+        this.setUsename(userDTO.getUsername());
+        this.setPassword(userDTO.getPassword());
+        this.setCreatedAt(userDTO.getCreatedAt());
+        this.setRoles(userDTO.getRoles());
+        this.setUserDetail(userDTO.getUserDetail());
+    }
+
+    public void addRole(Role role)
+    {
+        this.getRoles().add(role);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", usename='" + usename + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
+
+    public void removeRole(Role role)
+    {
+        this.getRoles().remove(role);
+    }
+
+    public void removeById(int roleId)
+    {
+        Set<Role> roles = this.getRoles();
+        for(Role role : roles)
+        {
+            if (role.getId().equals(roleId))
+            {
+                roles.remove(role);
+                break;
+            }
+        }
+    }
 }

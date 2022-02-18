@@ -1,8 +1,10 @@
 package com.academy.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +14,7 @@ import java.util.Set;
 @Table(name="adress")
 @Getter
 @Setter
+@ToString
 public class Adress {
 
     @Id
@@ -19,8 +22,9 @@ public class Adress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="city_id")
+    @ToString.Exclude
     private City city;
 
     @Column
@@ -33,12 +37,14 @@ public class Adress {
     private String postalCode;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable (
             name = "customer_adress",
             joinColumns = @JoinColumn(name = "adress_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="customer_id", referencedColumnName = "id")
     )
+    @JsonIgnore
+    @ToString.Exclude
     private Set<Customer> customers = new HashSet<>();
 
 }

@@ -4,4 +4,12 @@ spring:
   profiles:
     active: dev
 
+  cache:
+    jcache:
+      config: classpath:ehache.xml
+
 db-url: test123
+
+jwt:
+  secret: bXktc2VjcmV0LWtleQo=
+  validityInMinutes: 544

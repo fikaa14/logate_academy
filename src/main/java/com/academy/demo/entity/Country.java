@@ -1,10 +1,13 @@
 package com.academy.demo.entity;
 
+import com.academy.demo.dto.CountryDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +15,8 @@ import java.util.List;
 @Table(name = "country")
 @Getter
 @Setter
-public class Country {
+@NoArgsConstructor
+public class Country implements Serializable {
 
     @Id
     @Column
@@ -28,6 +32,13 @@ public class Country {
     @OneToMany(mappedBy = "country")
     @JsonIgnore
     private List<City> cities = new ArrayList<>();
+
+    public Country(CountryDTO countryDTO)
+    {
+        this.setId(countryDTO.getId());
+        this.setName(countryDTO.getName());
+        this.setShortCode(countryDTO.getShortCode());
+    }
 
     @Override
     public String toString() {
