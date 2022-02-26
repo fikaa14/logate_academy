@@ -8,6 +8,9 @@ spring:
     jcache:
       config: classpath:ehache.xml
 
+  liquibase:
+    change-log: classpath:liquibase/master.xml
+
 db-url: test123
 
 jwt:

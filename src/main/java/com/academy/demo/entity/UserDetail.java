@@ -1,5 +1,6 @@
 package com.academy.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class UserDetail {
 
     @MapsId
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

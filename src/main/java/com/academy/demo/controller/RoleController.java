@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/role")
 public class RoleController {
@@ -26,5 +28,12 @@ public class RoleController {
     {
         roleService.update(id, roleDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "all")
+    public ResponseEntity<List<RoleDTO>> all()
+    {
+        List<RoleDTO> roles = roleService.getAll();
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 }

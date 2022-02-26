@@ -1,0 +1,18 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20220220230300" author="Filip">
+
+        <addForeignKeyConstraint
+                baseTableName="product"
+                baseColumnNames="category_id"
+                constraintName="fk_product_category_id_key"
+                referencedTableName="category"
+                referencedColumnNames="id" />
+
+    </changeSet>
+
+
+</databaseChangeLog>

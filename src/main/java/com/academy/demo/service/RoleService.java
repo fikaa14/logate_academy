@@ -2,17 +2,23 @@ package com.academy.demo.service;
 
 import com.academy.demo.dto.RoleDTO;
 import com.academy.demo.entity.Role;
+import com.academy.demo.mapper.RoleMapper;
 import com.academy.demo.repository.RoleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    private final RoleMapper roleMapper;
 
     public void add(RoleDTO roleDTO)
     {
@@ -34,5 +40,18 @@ public class RoleService {
         else {
             throw new IllegalArgumentException("NEMA ROLE");
         }
+    }
+
+    public List<RoleDTO> getAll()
+    {
+        List<Role> roles = roleRepository.findAll();
+        List<RoleDTO> roleList = new ArrayList<>();
+
+        for(Role role: roles)
+        {
+            roleList.add(roleMapper.toDTO(role));
+        }
+
+        return roleList;
     }
 }

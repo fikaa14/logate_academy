@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,5 +58,29 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    public List<UserDTO> getAll()
+    {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(User user: users)
+        {
+            userDTOS.add(userMapper.toUserDTO(user));
+        }
+        return userDTOS;
+    }
+
+    public void deactivateById(Integer id)
+    {
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isPresent())
+        {
+            User user = userOptional.get();
+            user.setIsActive(false);
+
+            userRepository.save(user);
+        }
+
     }
 }

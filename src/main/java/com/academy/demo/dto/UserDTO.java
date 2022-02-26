@@ -12,6 +12,7 @@ import java.util.Set;
 @ToString
 public class UserDTO {
 
+    private Integer id;
     private String firstName;
     private String lastName;
     private String username;
@@ -21,5 +22,6 @@ public class UserDTO {
     private Set<Role> roles;
     @ToString.Exclude
     private UserDetail userDetail;
+    private Boolean isActive;
 
 }

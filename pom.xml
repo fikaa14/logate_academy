@@ -10,9 +10,10 @@
     </parent>
     <groupId>com.academy</groupId>
     <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Demo Academy</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -107,6 +108,13 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
+        </dependency>
+
+        <!-- Liquibase Dependency -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.4.0</version>
         </dependency>
 
     </dependencies>

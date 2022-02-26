@@ -1,6 +1,7 @@
 package com.academy.demo.entity;
 
 import com.academy.demo.dto.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,10 +39,10 @@ public class User {
     @Column(name="created_at")
     private Date createdAt;
 
-    @Column(name="is_active")
+    @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name= "user_role",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
@@ -49,8 +50,9 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST,  fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private UserDetail userDetail;
 
     public User(UserDTO userDTO)
@@ -61,7 +63,6 @@ public class User {
         this.setPassword(userDTO.getPassword());
         this.setCreatedAt(userDTO.getCreatedAt());
         this.setRoles(userDTO.getRoles());
-        this.setUserDetail(userDTO.getUserDetail());
     }
 
     public void addRole(Role role)
