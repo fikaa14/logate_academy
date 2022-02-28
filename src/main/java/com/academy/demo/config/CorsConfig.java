@@ -16,6 +16,6 @@ public class CorsConfig implements WebMvcConfigurer {
             .allowedHeaders("*")
             .allowedMethods("*")
             .allowedOrigins("*")
-            .allowedHeaders("*");
+            .exposedHeaders("cache-control,content-length,content-type,expires,pragma");
     }
 }

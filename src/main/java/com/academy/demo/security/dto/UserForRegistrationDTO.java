@@ -1,15 +1,18 @@
 package com.academy.demo.security.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserForRegistrationDTO {
 
-    private final String username;
-    private final String password;
-    private final String firstName;
-    private final String lastName;
+    private String username;
+    private String password;
+    private String firstName;
+    private String lastName;
 
 }

@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,14 +37,15 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         }
-        catch (ExpiredJwtException | SignatureException
-                | MalformedJwtException | UnsupportedJwtException
-                | IllegalArgumentException e)
+        catch(ExpiredJwtException | SignatureException
+                    | MalformedJwtException | UnsupportedJwtException
+                    | IllegalArgumentException e)
         {
-            response.addHeader("Access-Control-Allow-Origin", "*");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.addHeader("Access-Control-Allow-Origin", "*");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
+
 
     private String resolveToken(HttpServletRequest request)
     {

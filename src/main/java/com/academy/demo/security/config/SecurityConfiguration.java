@@ -19,9 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -33,8 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception
     {
         auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -46,33 +46,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         http
-            .exceptionHandling().authenticationEntryPoint(httpUnauthorizedEntryPoint)
-            .and()
-            .headers().frameOptions().disable()
-            .and()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-            .antMatchers("/api/authenticate/**").permitAll()
-            .antMatchers("/api/category").permitAll()
-            .antMatchers("/api/user/**").permitAll()
-            .antMatchers("/api/role/**").permitAll()
-            .antMatchers("/api/**").authenticated()
-            .anyRequest().authenticated();
+                .exceptionHandling().authenticationEntryPoint(httpUnauthorizedEntryPoint)
+                .and()
+                .headers().frameOptions().disable()
+                .and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/authenticate/**").permitAll()
+                .antMatchers("/api/**").authenticated()
+                .anyRequest().authenticated();
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManager() throws Exception{
-        return super.authenticationManager();
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
-
 }

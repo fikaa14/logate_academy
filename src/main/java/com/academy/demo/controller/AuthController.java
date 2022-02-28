@@ -44,7 +44,7 @@ public class AuthController {
         try
         {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication); // thread local!!!
 
             String token = jwtTokenProvider.createToken(authentication);
             return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
