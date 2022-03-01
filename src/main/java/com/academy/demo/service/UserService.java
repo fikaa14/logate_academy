@@ -5,6 +5,7 @@ import com.academy.demo.dto.UserDTO;
 import com.academy.demo.entity.Role;
 import com.academy.demo.entity.User;
 import com.academy.demo.mapper.UserMapper;
+import com.academy.demo.repository.RoleRepository;
 import com.academy.demo.repository.UserRepository;
 import com.academy.demo.security.dto.UserForRegistrationDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,11 +24,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     public void add(UserDTO userDTO)
     {
         User user = new User(userDTO);
-        user.getUserDetail().setUser(user);
+       // user.getUserDetail().setUser(user);
         userRepository.save(user);
     }
 
@@ -54,7 +54,19 @@ public class UserService {
     public void register(UserForRegistrationDTO userForRegistrationDTO)
     {
         String password = userForRegistrationDTO.getPassword();
-        User user = userMapper.toUser(userForRegistrationDTO);
+        User user = new User(userForRegistrationDTO);
+
+        for(String roleName:userForRegistrationDTO.getRoles())
+        {
+            roleName = "ROLE_".concat(roleName);
+            Integer id = roleRepository.findIdByName(roleName);
+            Optional<Role> roleOptional = roleRepository.findById(id);
+            if(roleOptional.isPresent())
+            {
+                Role role = roleOptional.get();
+                user.addRole(role);
+            }
+        }
 
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);

@@ -1,10 +1,13 @@
 package com.academy.demo.entity;
 
 import com.academy.demo.dto.UserDTO;
+import com.academy.demo.security.dto.UserForRegistrationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +18,8 @@ import java.util.Set;
 @Table(name="user")
 @Getter
 @Setter
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
 public class User {
 
@@ -42,7 +47,7 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(
             name= "user_role",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
@@ -63,6 +68,14 @@ public class User {
         this.setPassword(userDTO.getPassword());
         this.setCreatedAt(userDTO.getCreatedAt());
         this.setRoles(userDTO.getRoles());
+    }
+
+    public User(UserForRegistrationDTO userForRegistrationDTO)
+    {
+        this.setFirstName(userForRegistrationDTO.getFirstName());
+        this.setLastName(userForRegistrationDTO.getLastName());
+        this.setUsename(userForRegistrationDTO.getUsername());
+        this.setPassword(userForRegistrationDTO.getPassword());
     }
 
     public void addRole(Role role)

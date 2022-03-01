@@ -33,4 +33,8 @@ public interface RoleRepository extends JpaRepository<Role, Integer>
 
     List<Role> findByNameStartingWithAndDescriptionEndingWith(String namePart, String descriptionPart);
 
+    @Query(
+            value = "SELECT role.id FROM Role as role WHERE role.name = :roleName"
+    )
+    Integer findIdByName(String roleName);
 }
