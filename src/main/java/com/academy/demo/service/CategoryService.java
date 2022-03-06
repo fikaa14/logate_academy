@@ -37,7 +37,8 @@ public class CategoryService {
         {
             ParameterizedTypeReference<List<String>> typeReference = new ParameterizedTypeReference<List<String>>() {};
 
-            ResponseEntity<List<String>> responseEntity = secureRestTemplate.exchange(url, HttpMethod.GET, null, typeReference);
+            ResponseEntity<List<String>> responseEntity =
+                    secureRestTemplate.exchange(url, HttpMethod.GET, null, typeReference);
 
             LOGGER.info("Response body : {}" , responseEntity.getBody());
             LOGGER.info("Response Http Stetus Code: {}", responseEntity.getStatusCodeValue());

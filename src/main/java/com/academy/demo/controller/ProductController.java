@@ -3,6 +3,7 @@ package com.academy.demo.controller;
 import com.academy.demo.dto.ProductDTO;
 import com.academy.demo.dto.ProductWithCategoriesDTO;
 import com.academy.demo.dto.ProductWithDataDTO;
+import com.academy.demo.entity.ProductEntity;
 import com.academy.demo.search.ProductSearch;
 import com.academy.demo.service.ProductService;
 import org.slf4j.Logger;
@@ -188,5 +189,12 @@ public class ProductController {
         responseHeaders.set("Test-Header", "Test123");
 
         return new ResponseEntity<>(responseBody, responseHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping(value= "search/by-name-or-desc")
+    public ResponseEntity<List<ProductEntity>> searchByNameOrDes(@RequestParam(value = "term") String term)
+    {
+        List<ProductEntity> products = productService.search(term);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

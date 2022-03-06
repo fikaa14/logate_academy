@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/user")
@@ -47,6 +49,13 @@ public class UserController {
     {
         userService.deactivateById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/exists/by-username/{username}")
+    public ResponseEntity<Map<String, Boolean>> existsByUsername(@PathVariable String username)
+    {
+        boolean existsStatus = userService.existsByUsername(username);
+        return new ResponseEntity<>(Collections.singletonMap("status", existsStatus), HttpStatus.OK);
     }
     
 }

@@ -1,6 +1,8 @@
 package com.academy.demo.service;
 
 import com.academy.demo.dto.ProductDTO;
+import com.academy.demo.entity.ProductEntity;
+import com.academy.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ public class ProductService {
     @Autowired
     private ProductFakerService fakerService;
 
+    @Autowired
+    private ProductRepository productRepository;
 
     public List<ProductDTO> findAll() {
         return fakerService.findAll();
@@ -37,5 +41,10 @@ public class ProductService {
 
     public void insert(ProductDTO product) {
         fakerService.insert(product);
+    }
+
+    public List<ProductEntity> search(String term)
+    {
+        return productRepository.findByNameStartingWithOrDescriptionStartingWith(term, term);
     }
 }
