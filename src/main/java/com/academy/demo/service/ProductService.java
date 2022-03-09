@@ -4,6 +4,8 @@ import com.academy.demo.dto.ProductDTO;
 import com.academy.demo.entity.ProductEntity;
 import com.academy.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +48,14 @@ public class ProductService {
     public List<ProductEntity> search(String term)
     {
         return productRepository.findByNameStartingWithOrDescriptionStartingWith(term, term);
+    }
+
+    public List<ProductEntity> searchPageable(String term, Pageable pageable)
+    {
+        Page<ProductEntity> productsPageable =
+                productRepository.findByNameStartingWithOrDescriptionStartingWith(term, term, pageable);
+
+        List<ProductEntity> products = productsPageable.getContent();
+        return products;
     }
 }

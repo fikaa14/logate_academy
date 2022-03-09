@@ -9,6 +9,7 @@ import com.academy.demo.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -191,10 +192,19 @@ public class ProductController {
         return new ResponseEntity<>(responseBody, responseHeaders, HttpStatus.OK);
     }
 
+//    @GetMapping(value= "search/by-name-or-desc")
+//    public ResponseEntity<List<ProductEntity>> searchByNameOrDes(@RequestParam(value = "term") String term)
+//    {
+//        List<ProductEntity> products = productService.search(term);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
+
     @GetMapping(value= "search/by-name-or-desc")
-    public ResponseEntity<List<ProductEntity>> searchByNameOrDes(@RequestParam(value = "term") String term)
+    public ResponseEntity<List<ProductEntity>> searchByNameOrDesPageable(
+            @RequestParam(value = "term") String term,
+            Pageable pageable)
     {
-        List<ProductEntity> products = productService.search(term);
+        List<ProductEntity> products = productService.searchPageable(term, pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }
