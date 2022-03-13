@@ -16,3 +16,6 @@ db-url: test123
 jwt:
   secret: bXktc2VjcmV0LWtleQo=
   validityInMinutes: 5
+
+fs:
+  base-path: C:\Users\Korisnik\Desktop\logate_academy

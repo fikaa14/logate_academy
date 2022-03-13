@@ -22,3 +22,6 @@ fake-store-api:
   cart-part: /api/cart
 
 auth-key: LogateAcademy2022
+
+fs:
+  base-path: C:\Users\Korisnik\Desktop\logate_academy\
